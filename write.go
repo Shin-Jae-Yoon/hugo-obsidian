@@ -23,7 +23,8 @@ func write(links []Link, contentIndex ContentIndex, toIndex bool, out string, ro
 		return mErr
 	}
 
-	writeErr := ioutil.WriteFile(path.Join(out, "linkIndex.json"), marshalledIndex, 0644)
+	unescapedPathh, _ := url.PathUnescape(path.Join(out, "linkIndex.json"))
+	writeErr := ioutil.WriteFile(unescapedPathh, marshalledIndex, 0644)
 	if writeErr != nil {
 		return writeErr
 	}
