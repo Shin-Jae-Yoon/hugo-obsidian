@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"io/ioutil"
+	"net/url"
 	"os"
 	"path"
 )
@@ -58,10 +59,14 @@ func writeLinkMap(contentIndex *ContentIndex, root string) error {
 
 	datawriter := bufio.NewWriter(file)
 	for path := range *contentIndex {
-		if path == "/" {
+		unescapedPath, err := url.PathUnescape(path)
+		if err != nil {
+			return err
+		}
+		if unescapedPath == "/" {
 			_, _ = datawriter.WriteString("/index.html /\n")
 		} else {
-			_, _ = datawriter.WriteString(path + "/index.{html} " + path + "/\n")
+			_, _ = datawriter.WriteString(unescapedPath + "/index.{html} " + unescapedPath + "/\n")
 		}
 	}
 	datawriter.Flush()
