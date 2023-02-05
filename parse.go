@@ -42,7 +42,6 @@ func parse(dir, pathPrefix string) []Link {
 			target = "#"
 		}
 
-		target = processTarget(target)
 		source := processSource(trim(dir, pathPrefix, ".md"))
 
 		// fmt.Printf("  '%s' => %s\n", source, target)
