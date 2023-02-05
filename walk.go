@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 	"io/ioutil"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -58,7 +59,8 @@ func walk(root, ext string, index bool, ignorePaths map[string]struct{}) (res []
 				// check if page is private
 				if !matter.Draft {
 					info, _ := os.Stat(s)
-					source := processSource(trim(s, root, ".md"))
+					source, _ := url.PathUnescape(trim(s, root, ".md"))
+					source = processSource(source)
 
 					// add to content and link index
 					i[source] = Content{
