@@ -37,19 +37,15 @@ func parse(dir, pathPrefix string) []Link {
 		}
 
 		target = processTarget(target)
-
-		target, err := url.PathUnescape(target)
-		if err != nil {
-			fmt.Printf("[ERROR] Failed to unescape target URL: %s\n", target)
-			target = "#"
-		}
+		unesacpedTarget, _ := url.PathUnescape(target)
 
 		source := processSource(trim(dir, pathPrefix, ".md"))
+		unesacpedSource, _ := url.PathUnescape(source)
 
 		// fmt.Printf("  '%s' => %s\n", source, target)
 		links = append(links, Link{
-			Source: source,
-			Target: target,
+			Source: unesacpedSource,
+			Target: unesacpedTarget,
 			Text:   text,
 		})
 		n++
