@@ -38,7 +38,7 @@ func parse(dir, pathPrefix string) []Link {
 
 		target = processTarget(target)
 
-		unescapedTarget, err := url.PathUnescape(target)
+		target, err := url.PathUnescape(target)
 		if err != nil {
 			fmt.Printf("[ERROR] Failed to unescape target URL: %s\n", target)
 			target = "#"
@@ -49,7 +49,7 @@ func parse(dir, pathPrefix string) []Link {
 		// fmt.Printf("  '%s' => %s\n", source, target)
 		links = append(links, Link{
 			Source: source,
-			Target: unescapedTarget,
+			Target: target,
 			Text:   text,
 		})
 		n++
