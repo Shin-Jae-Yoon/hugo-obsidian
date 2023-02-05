@@ -4,8 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-
-	//	"net/url"
+	"net/url"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -37,8 +36,13 @@ func parse(dir, pathPrefix string) []Link {
 			target = "#"
 		}
 
+		target, err := url.PathUnescape(target)
+		if err != nil {
+			fmt.Printf("[ERROR] Failed to unescape target URL: %s\n", target)
+			target = "#"
+		}
+
 		target = processTarget(target)
-		//unescapedTarget, _ := url.PathUnescape(target)
 		source := processSource(trim(dir, pathPrefix, ".md"))
 
 		// fmt.Printf("  '%s' => %s\n", source, target)
