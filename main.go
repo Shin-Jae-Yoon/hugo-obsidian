@@ -2,12 +2,13 @@ package main
 
 import (
 	"flag"
-	"github.com/BurntSushi/toml"
-	wikilink "github.com/abhinav/goldmark-wikilink"
-	"github.com/yuin/goldmark"
 	"io/ioutil"
 	"path/filepath"
 	"time"
+
+	"github.com/BurntSushi/toml"
+	wikilink "github.com/abhinav/goldmark-wikilink"
+	"github.com/yuin/goldmark"
 )
 
 var md goldmark.Markdown

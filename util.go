@@ -32,17 +32,12 @@ func processTarget(source string) string {
 }
 
 func processSource(source string) string {
-	res := filepath.ToSlash(hugoPathTrim(source))
-	res = UnicodeSanitize(res)
-
-	// Parse and unescape the markdown address
-	parsed, err := url.Parse(res)
+	res, err := url.PathUnescape(source)
 	if err != nil {
-		fmt.Printf("Error parsing URL: %v\n", err)
-		return ""
+		// handle error
 	}
-	res = parsed.String()
-	res, _ = url.QueryUnescape(res)
+	res = filepath.ToSlash(hugoPathTrim(res))
+	res = UnicodeSanitize(res)
 	return strings.ReplaceAll(url.PathEscape(res), "%2F", "/")
 }
 
