@@ -60,8 +60,33 @@ func ishex(c rune) bool {
 
 // UnicodeSanitize sanitizes string to be used in Hugo URL's
 // from https://github.com/gohugoio/hugo/blob/93aad3c543828efca2adeb7f96cf50ae29878593/helpers/path.go#L94
+// func UnicodeSanitize(s string) string {
+// 	source := []rune(s)
+// 	target := make([]rune, 0, len(source))
+// 	var prependHyphen bool
+
+// 	for i, r := range source {
+// 		isAllowed := r == '.' || r == '/' || r == '\\' || r == '_' || r == '#' || r == '+' || r == '~'
+// 		isAllowed = isAllowed || unicode.IsLetter(r) || unicode.IsDigit(r) || unicode.IsMark(r)
+// 		isAllowed = isAllowed || (r == '%' && i+2 < len(source) && ishex(source[i+1]) && ishex(source[i+2]))
+
+// 		if isAllowed {
+// 			if prependHyphen {
+// 				target = append(target, '-')
+// 				prependHyphen = false
+// 			}
+// 			target = append(target, r)
+// 		} else if len(target) > 0 && (r == '-' || unicode.IsSpace(r)) {
+// 			prependHyphen = true
+// 		}
+// 	}
+
+// 	return string(target)
+// }
+
 func UnicodeSanitize(s string) string {
-	source := []rune(s)
+	// Change the encoding to UTF-8
+	source := []rune(strings.NewReplacer(" ", "-", "_", "-").Replace(s))
 	target := make([]rune, 0, len(source))
 	var prependHyphen bool
 
